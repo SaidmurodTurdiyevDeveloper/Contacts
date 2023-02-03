@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/model/ContactItem.dart';
+import 'widgets/ItemContact.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'My Contacts'),
     );
   }
 }
@@ -28,56 +31,120 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+List<ContactItem> items = [
+  ContactItem(
+      userId: "0",
+      title: "Person 1",
+      number: "3223",
+      imageUrl:
+          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+  ContactItem(
+      userId: "1",
+      title: "Person 2",
+      number: "676676",
+      imageUrl:
+          "https://www.shutterstock.com/image-photo/young-handsome-man-beard-wearing-260nw-1768126784.jpg"),
+];
 
-  void _incrementCounter() {
+class _MyHomePageState extends State<MyHomePage> {
+  void _deleteItem(String userId) {
     setState(() {
-      _counter++;
+      items.removeWhere((element) => element.userId == userId);
+    });
+  }
+
+  void _additem(ContactItem item) {
+    setState(() {
+      items.add(item);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      backgroundColor: Colors.white,
+      body: SafeArea(
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.title,
+                  style: const TextStyle(
+                      fontSize: 26, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
+          ),
+          Expanded(
+              child: ListView(
+            itemExtent: 90,
+            children: items.map((item) {
+              return ContactItemWidget(
+                  contactItem: item, deleteItem: _deleteItem);
+            }).toList(),
+          ))
+        ],
+      )),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () => {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              TextEditingController name = TextEditingController();
+              TextEditingController phone = TextEditingController();
+              TextEditingController imageurl = TextEditingController();
+
+              return AlertDialog(
+                title: const Text('Add a Contact'),
+                content: Container(
+                    height: 150,
+                    width: 300,
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: name,
+                          decoration: InputDecoration(hintText: "Name"),
+                        ),
+                        TextField(
+                          controller: phone,
+                          decoration: InputDecoration(hintText: "Phone number"),
+                        ),
+                        TextField(
+                          controller: imageurl,
+                          decoration: InputDecoration(hintText: "Image url"),
+                        ),
+                      ],
+                    )),
+                actions: [
+                  TextButton(
+                    child: const Text('Cencel'),
+                    onPressed: () => {
+                      Navigator.pop(context),
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('Add'),
+                    onPressed: () => {
+                      _additem(ContactItem(
+                          userId: items.length.toString(),
+                          title: name.text,
+                          number: phone.text,
+                          imageUrl: imageurl.text)),
+                      Navigator.pop(context)
+                    },
+                  ),
+                ],
+              ).build(context);
+            },
+          )
+        },
+        tooltip: 'Add Contact',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
