@@ -24,6 +24,4 @@ workflows:
       email:
         recipients:
           - saidmurod98developer@gmail.com
-           environment:
-    groups:
-      - app_store_credentials
+          
