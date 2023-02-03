@@ -1,0 +1,29 @@
+# Automatically generated on 2023-02-03 UTC from https://codemagic.io/app/63dd4b86a46e57fb0135cfc4/settings
+# Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
+
+workflows:
+  default-workflow:
+    name: Default Workflow
+    max_build_duration: 60
+    environment:
+      vars:
+        MODULE_SSH_KEY: Encrypted(Z0FBQUFBQmozVnV6TXRSSndmVGpua09fTnJQdjcwaS1SdnFPSWVUSGRORGpldkN4c3Z4dVZ3WS1tLXBJTVNzMEtxU1hXQTBqdWdGeVlJS0R2MFh6bWo0SEZJU1BzZXo1RC1zejUtMFFRaDZzLXVTRGI1cWQxeHdmTm1SSmxpdUp2Yi1mLUtnODJ6VEtVeFdqaHN3Z0VlTTZUemp4dGtWcDZVTk80ZzhnSkdfTE92TEliZk9neERBM2xJM1NLWDF6cVRITG1qOTdEeVlkOG9aZFRBWFpJTjNDM3c2dXRIUmRmSjMzcGxPRl9Yc2xpR1dyWkNkM2xwWnVHZGt1MWRTcDh0aVJ5WGtKSHViVlcyNjByQjRZU3NITTFHanhjanRESi1ETkFqS0czaExIN1R5RDBDWmM4d3ZmOEhmOGdleWxtQVFVSXJXUW5mYTVyMnA0QzZyRmF4MVhqY190Ull0TlVoRDRxcEh3SjR4bzViMnFEalhQNkliRUtLTGQ0UzVCZnN3TVFjODA3dTJUOE9wX0FTQk1TUXNGNi1rclBORWd4b3VvZU1IRkM4MWJnektDdE5lRzJiM3YtdDRvY3dyVXpJd2Q1RnRwX3JyV3Y2YlpPWU53bEdQY2Y5VTMwQi1Vb05UM1VQamx5UjltWUczbEx0QVI5bVFWZ01zTzNrWkRVVGloM01TelhnTHpmRW9yOU50SENGbS1wWnlQZ3dhd2VSRUlRdTBKWVRVZHVlRlY2dkU5ck5abUxBNUVtbmlGNVhXV1NkZjNoU1JyZ1RpdnByLTRVY0dwVWhmcGZsNTFYZXpRTmhnNWZXOWtCVVFiWGptUlBHZ0d5a3l6UDNfT3RROFMtMkgwai02TFVZMUw2cTNkNDkxMkZIV0NIem4wREpBVllvemVVQmduMHNqWmUyY2FsLW9rcjVMTEt6RjZna1NVU0xLbkxnRkNFNVdCMzJZRm9TZVZRX3JZRHNyVjlpZEtpNjd0VlkyZzVHbXJNb18tLVB4N056Vjk0el9HOWlqdGdXZ0MyU3k4LUVqaVBlWF9qWlgzLWdNNkhLdWlpSldwZXBvQS0ySTVJTnVCbWlIUkVrdnRxQTJRVUMzRm9vUC1OUmVUbThpUnhZcTA0NGMwTVRhNmF6RG50ODdaZmc9PQ==)
+      flutter: default
+      xcode: latest
+      cocoapods: default
+    cache:
+      cache_paths: []
+    scripts:
+      - flutter packages pub get
+      - flutter analyze
+    artifacts:
+      - '*.snap'
+      - build/windows/**/*.msix
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - saidmurod98developer@gmail.com
+           environment:
+    groups:
+      - app_store_credentials
